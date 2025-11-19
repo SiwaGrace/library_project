@@ -4,7 +4,10 @@
         @foreach($books as $item)
            <li> 
             <x-bookCard href="{{route('books.about',$item->id)}}"  :highlight="true">
-                <p>{{$item['title']}}</p>
+                <div>
+                    <p>{{$item['title']}}</p>
+                    <p>{{$item->category->name}}</p>
+                </div>
             </x-bookCard>
             </li> 
         @endforeach

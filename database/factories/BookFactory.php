@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\Category;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Book>
  */
@@ -20,7 +21,8 @@ class BookFactory extends Factory
             'title'=> fake()->sentence(3),
             'author'=> fake()->name(),
             'description'=> fake()->realText(500),
-            'available'=> fake()->boolean()
+            'available'=> fake()->boolean(),
+            'category_id'=>Category::inRandomOrder()->first()->id,
         ];
     }
 }

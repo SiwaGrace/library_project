@@ -10,4 +10,8 @@ class Book extends Model
     protected $fillable=['title','author','description','available'];
     /** @use HasFactory<\Database\Factories\BookFactory> */
     use HasFactory;
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }
