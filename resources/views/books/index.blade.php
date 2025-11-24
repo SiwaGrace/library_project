@@ -5,7 +5,7 @@
       <h1 class="text-3xl md:text-4xl font-extrabold text-sky-800">
         Welcome to Library Dashboard
       </h1>
-      <p class="text-gray-600 mt-2">Overview of your library at a glance.</p>
+      <p class="text-gray-600 mt-2">Overview of the library at a glance.</p>
     </header>
 
     <!-- Cards -->
@@ -61,7 +61,7 @@
         </div>
         <div>
           <p class="text-sm text-gray-500">Categories</p>
-          <p class="text-2xl font-bold text-gray-900">7</p>
+          <p class="text-2xl font-bold text-gray-900">{{$categoryLength}}</p>
         </div>
       </div>
     </section>
@@ -75,59 +75,58 @@
         </div>
 
         <div class="overflow-hidden rounded-lg border">
-          <table class="min-w-full divide-y">
-            <thead class="bg-sky-50">
-              <tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Author</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Action</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y">
-              <tr>
-                <td class="px-4 py-3 text-sm text-gray-800">Clean Code</td>
-                <td class="px-4 py-3 text-sm text-gray-600">Robert C. Martin</td>
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">Available</span>
-                </td>
-                <td class="px-4 py-3 text-right">
-                  <button class="text-sky-700 hover:underline text-sm">Details</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-4 py-3 text-sm text-gray-800">The Pragmatic Programmer</td>
-                <td class="px-4 py-3 text-sm text-gray-600">Andrew Hunt</td>
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">Borrowed</span>
-                </td>
-                <td class="px-4 py-3 text-right">
-                  <button class="text-sky-700 hover:underline text-sm">Details</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-4 py-3 text-sm text-gray-800">Refactoring</td>
-                <td class="px-4 py-3 text-sm text-gray-600">Martin Fowler</td>
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">Available</span>
-                </td>
-                <td class="px-4 py-3 text-right">
-                  <button class="text-sky-700 hover:underline text-sm">Details</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-4 py-3 text-sm text-gray-800">You Don’t Know JS</td>
-                <td class="px-4 py-3 text-sm text-gray-600">Kyle Simpson</td>
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">Borrowed</span>
-                </td>
-                <td class="px-4 py-3 text-right">
-                  <button class="text-sky-700 hover:underline text-sm">Details</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <table class="min-w-full divide-y">
+    <thead class="bg-sky-50">
+      <tr>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Author</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+        <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Action</th>
+      </tr>
+    </thead>
+
+    <tbody class="bg-white divide-y">
+
+      @foreach ($fourbooks as $book)
+        <tr>
+          <!-- Book Title -->
+          <td class="px-4 py-3 text-sm text-gray-800">
+            {{ $book->title }}
+          </td>
+
+          <!-- Book Author -->
+          <td class="px-4 py-3 text-sm text-gray-600">
+            {{ $book->author }}
+          </td>
+
+          <!-- Status -->
+          <td class="px-4 py-3">
+            @if ($book->available)
+              <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+                Available
+              </span>
+            @else
+              <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
+                Borrowed
+              </span>
+            @endif
+          </td>
+
+          <!-- Action -->
+          <td class="px-4 py-3 text-right">
+            <a 
+              href="{{ route('books.about', $book->id) }}" 
+              class="text-sky-700 hover:underline text-sm">
+              Details
+            </a>
+          </td>
+        </tr>
+      @endforeach
+
+    </tbody>
+  </table>
+</div>
+
       </div>
     </section>
   </div>

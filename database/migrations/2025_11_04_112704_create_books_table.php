@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('author') ;
             $table->text('description');
-            $table->boolean('available');
+            $table->boolean('available')->default(true);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             // $table->string('image_path');
             // $table->string("pdf_path")
