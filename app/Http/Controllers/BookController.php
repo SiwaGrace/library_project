@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Borrow;
 
 
 use Illuminate\Http\Request;
@@ -36,8 +37,13 @@ function edit() {
    return view('books.edit');
 }
 
-function destroy() {
-   return view('books.destroy');
+function destroy($id) {
+    $book = Book::findOrFail($id);
+     // Delete the book
+        $book->delete();
+    // Redirect back with a success message
+        return redirect()->route('books.allBooks')
+                         ->with('success', 'Book deleted successfully!');
 }
 
 function add() {
@@ -61,8 +67,22 @@ function store(Request $request) {
     //   ->with('success','Ninja created!');
 }
 
+
 function track() {
-    return view('books.track');
+    $records = Borrow::with('book')
+        ->orderBy('borrowed_at', 'desc')
+        ->paginate(10);
+
+    return view('books.track', ['records' => $records]);
 }
+
+
+// function track() {
+//     $records = Borrow::with(['user', 'book'])
+//         ->orderBy('borrowed_at', 'desc')
+//         ->paginate(10);
+
+//     return view('books.track', ['records' => $records]);
+// }
 
 }

@@ -16,11 +16,12 @@ Route::get('/books/add',[BookController::class,'add'])->name('books.add');
 
 Route::get('/books/edit',[BookController::class,'edit'])->name('books.edit');
 
-Route::get('/books/destroy',[BookController::class,'destroy'])->name('books.destroy');
-
-Route::get('/books/{id}',[BookController::class,'edit'])->name('books.edit');
 
 Route::get('/books/track', [BookController::class,'track'])->name('books.track');
+
+Route::delete('/books/{id}',[BookController::class,'destroy'])->name('books.destroy');
+
+Route::get('/books/{id}',[BookController::class,'edit'])->name('books.edit');
 
 Route::get('/books/{id}',[BookController::class,'about'] )->name('books.about');
 
