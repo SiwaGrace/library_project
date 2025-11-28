@@ -17,7 +17,7 @@
       </p>
 
       <a 
-        href="/dashboard"
+        href="{{route('register')}}"
         class="inline-block px-6 py-3 bg-sky-600 text-white font-semibold rounded-xl shadow-md hover:bg-sky-700 hover:shadow-lg transition-all duration-300"
       >
         Access Books Library

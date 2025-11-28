@@ -20,21 +20,21 @@ class BookController extends Controller
         $borrowedBooks = Book::where('available', false)->count();
          $fourbooks=Book::latest()->take(5)->get();
 
-    return view('books.index',['books'=>$books,'length'=>$length,'availableCount'=>$availableCount,'borrowedBooks'=>$borrowedBooks,'categoryLength'=>$catlength,'fourbooks'=>$fourbooks]);
+    return view('admin.index',['books'=>$books,'length'=>$length,'availableCount'=>$availableCount,'borrowedBooks'=>$borrowedBooks,'categoryLength'=>$catlength,'fourbooks'=>$fourbooks]);
 }
 
     function allBooks(){
  $books=Book::orderBy('created_at','desc')->get();
-         return view('books.books',['books'=>$books]);
+         return view('admin.books',['books'=>$books]);
     }
 
     function about($id) {
          $book = Book::with('category')->findOrFail($id);
-    return view('books.about',["id"=>$id], compact('book'));
+    return view('admin.about',["id"=>$id], compact('book'));
 }
 
 function edit() {
-   return view('books.edit');
+   return view('admin.edit');
 }
 
 function destroy($id) {
@@ -48,7 +48,7 @@ function destroy($id) {
 
 function add() {
     $category = Category::all();
-   return view('books.add', ['categories'=>$category]);
+   return view('admin.add', ['categories'=>$category]);
 }
 
 function store(Request $request) {
@@ -73,7 +73,7 @@ function track() {
         ->orderBy('borrowed_at', 'desc')
         ->paginate(10);
 
-    return view('books.track', ['records' => $records]);
+    return view('admin.track', ['records' => $records]);
 }
 
 
