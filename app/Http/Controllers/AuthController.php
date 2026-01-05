@@ -36,7 +36,13 @@ public function register(Request $request)
         Auth::login($user);
 
         // Redirect
-        return redirect()->route('books.index')->with('success', 'Account created successfully!');
+        // Redirect based on role
+if ($user->role === 'admin') {
+    return redirect()->route('books.index')->with('success', 'Account created successfully!');
+}
+
+return redirect()->route('dashboard')->with('success', 'Account created successfully!');
+        
     }
 
     public function showLogin()
@@ -56,8 +62,13 @@ public function register(Request $request)
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate(); // prevent session fixation
 
-            return redirect()->intended(route('books.index'))
-                ->with('success', 'Logged in successfully!');
+             $user = Auth::user();
+
+    if ($user->role === 'admin') {
+        return redirect()->route('books.index');
+    }
+
+    return redirect()->route('dashboard');
         }
 
         // If login fails

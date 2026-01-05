@@ -22,7 +22,21 @@ class BookController extends Controller
         $borrowedBooks = Book::where('available', false)->count();
          $fourbooks=Book::latest()->take(5)->get();
 
-    return view('admin.index',['books'=>$books,'length'=>$length,'availableCount'=>$availableCount,'borrowedBooks'=>$borrowedBooks,'categoryLength'=>$catlength,'fourbooks'=>$fourbooks,'user'=>$user]);
+     // Admin dashboard
+    if ($user->isAdmin()) {
+        return view('admin.index', [
+            'books' => Book::all(),
+            'length' => Book::count(),
+            'availableCount' => Book::where('available', true)->count(),
+            'borrowedBooks' => Book::where('available', false)->count(),
+            'categoryLength' => Category::count(),
+            'fourbooks' => Book::latest()->take(5)->get(),
+            'user' => $user
+        ]);
+    }
+
+    // User dashboard
+    return view('user.dashboard');
 }
 
     function allBooks(){

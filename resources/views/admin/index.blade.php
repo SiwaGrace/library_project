@@ -73,7 +73,7 @@
       <div class="bg-white rounded-2xl shadow-sm p-6 border border-sky-50">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-semibold text-sky-800">Recent Books</h3>
-          <a href="{{route('books.allBooks')}}" class="text-sm text-sky-700 hover:underline">View all</a >
+          <a href="{{route('books.admin.allBooks')}}" class="text-sm text-sky-700 hover:underline">View all</a >
         </div>
 
         <div class="overflow-hidden rounded-lg border">
