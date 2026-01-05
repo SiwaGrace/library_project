@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Borrow;
+use App\Models\User;
 
 
 use Illuminate\Http\Request;
@@ -15,12 +16,13 @@ class BookController extends Controller
         $books=Book::all();
         $categories=Category::all();
         $length = Book::count();
+         $user = auth()->user();
         $catlength = Category::count();
         $availableCount = Book::where('available', true)->count();
         $borrowedBooks = Book::where('available', false)->count();
          $fourbooks=Book::latest()->take(5)->get();
 
-    return view('admin.index',['books'=>$books,'length'=>$length,'availableCount'=>$availableCount,'borrowedBooks'=>$borrowedBooks,'categoryLength'=>$catlength,'fourbooks'=>$fourbooks]);
+    return view('admin.index',['books'=>$books,'length'=>$length,'availableCount'=>$availableCount,'borrowedBooks'=>$borrowedBooks,'categoryLength'=>$catlength,'fourbooks'=>$fourbooks,'user'=>$user]);
 }
 
     function allBooks(){

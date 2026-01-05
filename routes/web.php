@@ -7,32 +7,41 @@ use App\Http\Controllers\AuthController;
 // Public
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 // Authentication routes
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::middleware('guest')->group(function(){
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('auth.register');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('auth.login');
 // Form submission
-Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 // User routes
 
 // Admin routes
-Route::get('/dashboard', [BookController::class,'index'])->name('books.index');
 
-Route::get('/admin/books',[BookController::class,'allBooks'] )->name('books.allBooks');
+Route::middleware('auth')->controller(BookController::class)->group(function(){
+Route::get('/dashboard', 'index')->name('books.index');
 
-Route::get('/admin/add',[BookController::class,'add'])->name('books.add');
+Route::get('/admin/books','allBooks' )->name('books.allBooks');
 
-Route::post('/dashboard',[BookController::class,'store'] )->name('books.store');
+Route::get('/admin/add','add')->name('books.add')->middleware('auth');
 
-Route::get('/admin/edit',[BookController::class,'edit'])->name('books.edit');
+Route::post('/dashboard','store' )->name('books.store');
 
-Route::get('/admin/track', [BookController::class,'track'])->name('books.track');
+Route::get('/admin/edit','edit')->name('books.edit');
 
-Route::delete('/admin/{id}',[BookController::class,'destroy'])->name('books.destroy');
+Route::get('/admin/track', 'track')->name('books.track');
 
-Route::get('/admin/{id}',[BookController::class,'edit'])->name('books.edit');
+Route::delete('/admin/{id}','destroy')->name('books.destroy');
 
-Route::get('/admin/{id}',[BookController::class,'about'] )->name('books.about');
+Route::get('/admin/{id}','edit')->name('books.edit');
+
+Route::get('/admin/{id}','about' )->name('books.about');
+});
+

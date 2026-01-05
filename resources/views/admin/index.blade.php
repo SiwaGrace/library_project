@@ -5,7 +5,9 @@
       <h1 class="text-3xl md:text-4xl font-extrabold text-sky-800">
         Welcome to Library Dashboard
       </h1>
-      <p class="text-gray-600 mt-2">Overview of the library at a glance.</p>
+      <p class="text-gray-600 mt-2">Overview of the library at a glance.
+       {{ $user->first_name }}
+      </p>
     </header>
 
     <!-- Cards -->

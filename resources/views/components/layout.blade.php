@@ -41,6 +41,12 @@
               Track Books
             </a>
           </li>
+          <li>
+            <form action="{{route('logout')}}" method="POST">
+              @csrf
+<button>logout</button>
+            </form>
+          </li>
         </ul>
       </nav>
     </header>

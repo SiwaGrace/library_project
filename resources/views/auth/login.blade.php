@@ -5,17 +5,18 @@
     <div class="bg-white shadow-lg rounded-xl w-full max-w-md p-8">
         <h2 class="text-2xl font-bold text-center mb-6">Welcome Back</h2>
 
-        <form>
+        <form action="{{route('login')}}" method="POST">
+            @csrf
             <div class="mb-4">
-                <label class="block text-gray-700 mb-1">Email</label>
-                <input type="email" placeholder="example@gmail.com"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                <label for="email" class="block text-gray-700 mb-1">Email</label>
+                <input type="email" name="email" placeholder="example@gmail.com"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300" required value="{{old('email')}}">
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 mb-1">Password</label>
-                <input type="password" placeholder="********"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                <label for="password" class="block text-gray-700 mb-1">Password</label>
+                <input type="password" name="password" placeholder="********"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300" required value="{{old('password')}}"> 
             </div>
 
             <button
@@ -27,6 +28,14 @@
                 Don't have an account?
                 <a href="/register" class="text-blue-600 hover:underline">Create one</a>
             </p>
+             {{-- validation errors --}}
+            @if ($errors->any())
+            <ul class="px-4 oy-2 bg-red-100">
+                @foreach ($errors->all() as $error)
+                    <li class="my-2 text-red-500">{{$error}}</li>
+                @endforeach
+            </ul>
+            @endif
         </form>
     </div>
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
@@ -29,15 +32,46 @@ public function register(Request $request)
             'role'     => 'user', // default role
         ]);
 
-        // Login user automatically
-        auth()->login($user);
+        // Login user automaticall y
+        Auth::login($user);
 
         // Redirect
-        return redirect('admin.index')->with('success', 'Account created successfully!');
+        return redirect()->route('books.index')->with('success', 'Account created successfully!');
     }
 
     public function showLogin()
     {
         return view('auth.login');
+    }
+
+ public function login(Request $request)
+    {
+        // Validate input
+        $credentials = $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Attempt to log in
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate(); // prevent session fixation
+
+            return redirect()->intended(route('books.index'))
+                ->with('success', 'Logged in successfully!');
+        }
+
+        // If login fails
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+     public function logout(Request $request)
+    {
+       Auth::logout();
+
+       $request->session()->invalidate();
+       $request->session()->regenerateToken();
+return redirect()->route('welcome');
     }
 }
