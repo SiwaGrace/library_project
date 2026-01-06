@@ -30,7 +30,7 @@
             {{ $book->description }}
         </p>
 
-        <a href="{{ route('books.allBooks') }}" class="text-sky-700 hover:underline">
+        <a href="{{ route('books.admin.allBooks') }}" class="text-sky-700 hover:underline">
             &larr; Back to Books
         </a>
     </div>

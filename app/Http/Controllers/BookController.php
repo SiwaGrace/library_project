@@ -36,7 +36,7 @@ class BookController extends Controller
     }
 
     // User dashboard
-    return view('user.dashboard');
+    return view('user.index',['user' => $user]);
 }
 
     function allBooks(){
@@ -58,7 +58,7 @@ function destroy($id) {
      // Delete the book
         $book->delete();
     // Redirect back with a success message
-        return redirect()->route('books.allBooks')
+        return redirect()->route('books.index')
                          ->with('success', 'Book deleted successfully!');
 }
 
