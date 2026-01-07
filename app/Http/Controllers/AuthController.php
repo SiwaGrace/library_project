@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-     public function showRegister()
+     public function showRegister(Request $request)
     {
-        return view('auth.register');
+         return view('auth.register', [
+        'ref' => $request->query('ref')
+    ]);
     }
     
 public function register(Request $request)
@@ -30,6 +32,7 @@ public function register(Request $request)
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'user', // default role
+            'referred_by' =>  $request->input('referred_by'),
         ]);
 
         // Login user automaticall y

@@ -17,6 +17,7 @@ class BookController extends Controller
         $categories=Category::all();
         $length = Book::count();
          $user = auth()->user();
+         $referrals = auth()->user()->referrals;
         $catlength = Category::count();
         $availableCount = Book::where('available', true)->count();
         $borrowedBooks = Book::where('available', false)->count();
@@ -36,7 +37,8 @@ class BookController extends Controller
     }
 
     // User dashboard
-    return view('user.index',['user' => $user]);
+
+    return view('user.index',['user' => $user,'referrals'=>$referrals]);
 }
 
     function allBooks(){

@@ -14,6 +14,9 @@
                     value="{{old('name')}}">
             </div>
 
+<input type="hidden" name="referred_by" value="{{ $ref }}">
+
+
             <div class="mb-4">
                 <label for="email" class="block text-gray-700 mb-1">Email</label>
                 <input type="email" name="email" placeholder="example@gmail.com"

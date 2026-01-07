@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+         'referred_by',
     ];
 
     /**
@@ -38,6 +39,18 @@ public function isAdmin(): bool
 public function isUser(): bool
 {
     return $this->role === 'user';
+}
+
+// Who invited me
+public function referrer()
+{
+    return $this->belongsTo(User::class, 'referred_by');
+}
+
+// Who I invited
+public function referrals()
+{
+    return $this->hasMany(User::class, 'referred_by');
 }
 
 
