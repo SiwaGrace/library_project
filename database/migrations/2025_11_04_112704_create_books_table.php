@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('books')) {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -22,6 +23,7 @@ return new class extends Migration
             // $table->string('image_path');
             // $table->string("pdf_path")
         });
+    }
     }
 
     /**
