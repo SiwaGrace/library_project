@@ -14,7 +14,7 @@
                     value="{{old('name')}}">
             </div>
 
-<input type="hidden" name="referred_by" value="{{ $ref }}">
+<input type="hidden" name="referred_by" value="{{ $ref ?? '' }}">
 
 
             <div class="mb-4">

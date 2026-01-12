@@ -1,15 +1,15 @@
 <x-layout>
     @php
-        // Always check if auth user exists to avoid trying to get ID on null
-        $referralLink = auth()->check() 
-            ? route('auth.register', ['ref' => auth()->id()]) 
-            : 'Please log in to see your link';
+        $user = auth()->user();
+        $referralLink = route('auth.register', ['ref' => $user->id]);
     @endphp
-<h2>if refer; write have been refered by username if not nothing should show</h2>
-    <h2 class="text-lg font-semibold mb-2">Invite a friend</h2>
 
-    <div class="flex flex-col gap-2 max-w-xl">
-        <div class="flex items-center gap-2">
+    <h2 class="text-xl font-semibold mb-4">Your Referral Info</h2>
+
+    <!-- Referral Link -->
+    <div class="mb-6 bg-amber-900">
+        <h3 class="font-medium mb-2">Invite a Friend</h3>
+        <div class="flex items-center gap-2 max-w-xl">
             <input
                 id="referralLink"
                 type="text"
@@ -17,7 +17,6 @@
                 value="{{ $referralLink }}"
                 class="w-full px-3 py-2 border rounded-md text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500"
             />
-
             <button
                 id="copyBtn"
                 onclick="copyReferral()"
@@ -26,52 +25,63 @@
                 Copy
             </button>
         </div>
-
-        <!-- Custom success message instead of browser alert -->
-        <p id="copyFeedback" class="text-xs text-green-600 font-medium hidden">
+        <p id="copyFeedback" class="text-xs text-green-600 font-medium hidden mt-1">
             ✓ Link copied to clipboard!
         </p>
     </div>
 
-    <p class="text-sm text-gray-500 mt-2">
-        Share this link to invite friends.
-    </p>
-
     <script>
-    function copyReferral() {
-        const input = document.getElementById('referralLink');
-        const feedback = document.getElementById('copyFeedback');
-        const btn = document.getElementById('copyBtn');
+        function copyReferral() {
+            const input = document.getElementById('referralLink');
+            const feedback = document.getElementById('copyFeedback');
+            const btn = document.getElementById('copyBtn');
 
-        // Select the text
-        input.select();
-        input.setSelectionRange(0, 99999);
+            input.select();
+            input.setSelectionRange(0, 99999);
 
-        // Robust Copying
-        try {
-            // Modern Clipboard API
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(input.value);
-            } else {
-                // Fallback for non-HTTPS or older browsers
-                document.execCommand('copy');
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(input.value);
+                } else {
+                    document.execCommand('copy');
+                }
+
+                feedback.classList.remove('hidden');
+                btn.innerText = 'Copied!';
+                btn.classList.replace('bg-sky-600', 'bg-green-600');
+
+                setTimeout(() => {
+                    feedback.classList.add('hidden');
+                    btn.innerText = 'Copy';
+                    btn.classList.replace('bg-green-600', 'bg-sky-600');
+                }, 2000);
+
+            } catch (err) {
+                console.error('Failed to copy', err);
             }
-
-            // Show UI Feedback (instead of annoying alerts)
-            feedback.classList.remove('hidden');
-            btn.innerText = 'Copied!';
-            btn.classList.replace('bg-sky-600', 'bg-green-600');
-
-            // Reset UI after 2 seconds
-            setTimeout(() => {
-                feedback.classList.add('hidden');
-                btn.innerText = 'Copy';
-                btn.classList.replace('bg-green-600', 'bg-sky-600');
-            }, 2000);
-
-        } catch (err) {
-            console.error('Failed to copy', err);
         }
-    }
     </script>
+
+    <!-- Who referred you -->
+    <div class="mb-4">
+        @if($user->referrer)
+            <p class="text-gray-700">
+                ✅ <strong>{{ $user->referrer->name }}</strong> referred you.
+            </p>
+        @endif
+    </div>
+
+    <!-- Your referrals -->
+    <div>
+        @if($user->referrals->count() > 0)
+            <p class="font-medium text-gray-800 mb-2">You have referred:</p>
+            <ul class="list-disc list-inside text-gray-700">
+                @foreach($user->referrals as $ref)
+                    <li>{{ $ref->name }} ({{ $ref->email }})</li>
+                @endforeach
+            </ul>
+        @else
+            <p class="text-gray-500">No referrals yet.</p>
+        @endif
+    </div>
 </x-layout>
