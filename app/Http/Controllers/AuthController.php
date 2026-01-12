@@ -32,7 +32,7 @@ public function register(Request $request)
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'user', // default role
-            'referred_by' =>  $request->input('referred_by'),
+           'referred_by' => $referredBy ? (int) $referredBy : null,
         ]);
 
         // Login user automaticall y
