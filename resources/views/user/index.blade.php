@@ -7,7 +7,7 @@
     <h2 class="text-xl font-semibold mb-4">Your Referral Info</h2>
 
     <!-- Referral Link -->
-    <div class="mb-6 bg-amber-900">
+    <div class="mb-6">
         <h3 class="font-medium mb-2">Invite a Friend</h3>
         <div class="flex items-center gap-2 max-w-xl">
             <input
